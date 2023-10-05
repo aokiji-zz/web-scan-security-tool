@@ -1,7 +1,7 @@
 # pentest tools electron
-A pentest tools in electron, created with, nodejs, typescript, react
+A pentest tools builded in electron, created with, nodejs, typescript, react
 
-This app need NMAP package installed to run
+This app need NMAP package installed to run.
 
 Intalling using linux terminal.
 
