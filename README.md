@@ -13,6 +13,8 @@ Intalling using linux terminal.
 
 MAC and Windows is not supported now
 
+Download .AppImage executable
+
 https://drive.google.com/file/d/1k29A-kdsSvHUn2dJqKtaDdR0S7xDuLld/view?usp=sharing
 
 Software under development, but scan network is already in operation. Some actions requires a root exec.
