@@ -1,11 +1,13 @@
 # pentest tools electron
 A pentest tools builded in electron, created with, nodejs, typescript, react
 
-This app need NMAP package installed to run.
+This app needs some packages to run (docker, docker-compose, nmap).
 
 Intalling using linux terminal.
 
-LINUX = ```sudo apt install nmap```
+```sudo apt install nmap```
+```sudo apt install docker.io```
+```sudo apt install docker-compose```
 
 MAC and Windows is not supported now
 
