@@ -11,13 +11,12 @@ MAC and Windows is not supported now
 
 Software under development, but scan network is already in operation. Some actions requires a root exec.
 
-
-HOW TO USE:
+Fields syntax:
 
 1 - Address -> insert url, ip, ip range or ips.                                                                                                                                                            
 
-Ip range follow this syntax: ```192.168.0.0-255```.                                                                                                                                                       
+Ip: ```192.168.0.0-255```.                                                                                                                                                       
 
-Ips ```192.168.0.1 192.168.0.2```.                                                                                                                                                                         
+Ips: ```192.168.0.1 192.168.0.2```.                                                                                                                                                                         
 
-Url ```https://excample.com``` or ```example.com```.
+Url: ```https://excample.com``` or ```example.com```.
