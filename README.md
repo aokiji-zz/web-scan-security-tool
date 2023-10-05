@@ -6,10 +6,14 @@ This app needs some packages to run (docker, docker-compose, nmap).
 Intalling using linux terminal.
 
 ```sudo apt install nmap```
+
 ```sudo apt install docker.io```
+
 ```sudo apt install docker-compose```
 
 MAC and Windows is not supported now
+
+https://drive.google.com/file/d/1k29A-kdsSvHUn2dJqKtaDdR0S7xDuLld/view?usp=sharing
 
 Software under development, but scan network is already in operation. Some actions requires a root exec.
 
