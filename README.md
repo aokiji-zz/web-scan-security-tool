@@ -20,6 +20,7 @@ If you run as dev need install docker and docker-compose:
 ```sudo apt install docker-compose```
 
 Setup ambient:
+
 ```npx prisma init```
 
 ```npx prisma generate```
