@@ -110,6 +110,9 @@ export function Home() {
           };
         })
       : undefined;
+  useEffect(() => {
+    window.electron.ipcRenderer.sendMessage('sendTarget', target);
+  }, [dataSource, target]);
 
   const menu: MenuProps['items'] = [
     {

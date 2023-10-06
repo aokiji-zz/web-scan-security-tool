@@ -13,6 +13,7 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ITcpScan } from 'tools/network-scan/types';
+import axios from 'axios';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import nmap from '../tools/network-scan/nmap-scan.service';
@@ -53,6 +54,12 @@ ipcMain.on('cancelScan', async (event, arg: string[]) => {
   return cancel;
 });
 
+// save targets
+ipcMain.on('sendTarget', async (event, arg) => {
+  if (!arg) return null;
+  await axios.post('http://localhost:8483/sendTarget', JSON.stringify(arg));
+  console.log('arg', arg);
+});
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();

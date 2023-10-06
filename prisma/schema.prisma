@@ -11,9 +11,22 @@ datasource db {
 }
 
 model Target {
-  domain String? @unique()
-  externalIp String? @unique()
+  domain     String?
+  externalIp String?
   internalIp String?
-  url       String?
-  id Int @default(autoincrement()) @id()
+  url        String?
+  Services   Service[]
+  id         Int       @id() @default(autoincrement())
+}
+
+model Service {
+  port     Int
+  protocol String
+  state    Boolean
+  service  String
+  version  String?
+  product  String?
+  id       Int     @id() @default(autoincrement())
+  Target   Target @relation(fields: [targetId], references: [id])
+  targetId Int
 }
