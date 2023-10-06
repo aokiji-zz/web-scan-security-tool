@@ -5,7 +5,7 @@ This app needs some packages to run (docker, docker-compose, nmap).
 
 Intalling using linux terminal.
 
-If you run as user use run and download .AppImage: 
+If you run as user run and download .AppImage: 
 
 1 - ```sudo apt install nmap```
 
