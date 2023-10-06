@@ -5,17 +5,28 @@ This app needs some packages to run (docker, docker-compose, nmap).
 
 Intalling using linux terminal.
 
-```sudo apt install nmap```
+If you run as user use run and download .AppImage: 
+
+1 - ```sudo apt install nmap```
+
+2 - Download .AppImage executable:
+
+https://drive.google.com/file/d/1k29A-kdsSvHUn2dJqKtaDdR0S7xDuLld/view?usp=sharing
+
+If you run as dev need install docker and docker-compose:
 
 ```sudo apt install docker.io```
 
 ```sudo apt install docker-compose```
 
-MAC and Windows is not supported now
+Setup ambient:
+```npx prisma init```
 
-Download .AppImage executable
+```npx prisma generate```
 
-https://drive.google.com/file/d/1k29A-kdsSvHUn2dJqKtaDdR0S7xDuLld/view?usp=sharing
+```npm i```
+
+```npm start```
 
 Software under development, but scan network is already in operation. Some actions requires a root exec.
 
