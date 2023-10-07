@@ -65,7 +65,7 @@ export enum ScanTypeSelect {
 }
 
 export enum ScriptSelect {
-  default = '-sC',
+  // default = '-sC',
   auth = 'auth',
   broadcast = 'broadcast',
   privacy = 'privacy',
@@ -76,5 +76,5 @@ export enum ScriptSelect {
   fuzzer = 'fuzzer',
   malware = 'malware',
   vuln = 'vuln',
-  version = 'version', // just run with -sV
+  // version = 'version', // just run with -sV
 }

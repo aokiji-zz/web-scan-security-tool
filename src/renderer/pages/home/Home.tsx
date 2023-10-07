@@ -50,12 +50,12 @@ export function Home() {
   const [formValues, setFormValues] = useState<FormParam>();
   const { Option } = Select;
   async function startScan() {
-    const { address, scanType, port } = formValues as FormParam;
+    const { address, scanType, port, script } = formValues as FormParam;
     window.electron.ipcRenderer.sendMessage('startScan', [
       address,
       scanType,
       port ? `-p${port}` : port,
-      // script ? `--script ${script}` : script,
+      script ? `${script}` : script,
     ]);
     setLoading(true);
   }
@@ -181,25 +181,27 @@ export function Home() {
                 mode="multiple"
                 style={{ width: '200px' }}
               >
-                {Object.keys(ScanTypeSelect).map((type) => (
-                  <Option
-                    disabled={
-                      // eslint-disable-next-line no-nested-ternary
-                      formValues?.scanType?.find((e) => e === '-sO')
-                        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                          // @ts-ignore
-                          ScanTypeSelect[type] !== '-sO'
-                        : undefined
-                    }
-                    key={type}
-                    label={type}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    value={ScanTypeSelect[type]}
-                  >
-                    <TooltipQuestion title={type} text={type} />
-                  </Option>
-                ))}
+                {Object.keys(ScanTypeSelect).map((type) => {
+                  return (
+                    <Option
+                      disabled={
+                        // eslint-disable-next-line no-nested-ternary
+                        formValues?.scanType?.find((e) => e === '-sO')
+                          ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore
+                            ScanTypeSelect[type] !== '-sO'
+                          : undefined
+                      }
+                      key={type}
+                      label={type}
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore
+                      value={ScanTypeSelect[type]}
+                    >
+                      <TooltipQuestion title={type} text={type} />
+                    </Option>
+                  );
+                })}
               </Select>
             </Form.Item>
           </Col>

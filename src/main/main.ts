@@ -33,7 +33,7 @@ ipcMain.on('startScan', async (event, args: string[]) => {
   const nmapResponde = new Map<string, ITcpScan>();
   const addresses = args[0].replace(/^(https?:\/\/)?([^\/]+)(\/.*)?$/, '$2');
 
-  const parsedArgs = args[1]?.concat(args?.[2]); // ?.concat(args?.[3]);
+  const parsedArgs = args[1]?.concat(args?.[2])?.concat(args?.[3]);
   const scan = new nmap.NmapScan(addresses, parsedArgs);
   scan.on('complete', (data: ITcpScan) => {
     nmapResponde.set(addresses, data);

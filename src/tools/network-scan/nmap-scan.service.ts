@@ -100,9 +100,9 @@ class NmapScan extends EventEmitter {
       buttons: ['Cancel', 'Allow'],
       icon: path.join(__dirname, '../../assets/icons/caveiraicon.png'),
       defaultId: 1,
-      title: 'Elevated Privileges Required',
+      title: 'Elevated privileges required',
       message:
-        'This action requires elevated privileges. Press allow and insert your password if you aggree.',
+        'This action requires elevated privileges. Press allow if you aggree.',
     };
 
     const rootCommands = this.command.some((e) =>
@@ -121,6 +121,14 @@ class NmapScan extends EventEmitter {
     } else {
       // eslint-disable-next-line no-use-before-define
       this.child = spawn(nmap.nmapLocation, this.command);
+      // spawn('nmap', [
+      //   '-oX',
+      //   '-',
+      //   '-sV',
+      //   '--script',
+      //   'discovery',
+      //   '192.168.0.1',
+      // ]);
     }
     process.on('SIGINT', this.killChild);
     process.on('uncaughtException', this.killChild);
