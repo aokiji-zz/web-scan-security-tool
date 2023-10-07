@@ -31,7 +31,7 @@ let mainWindow: BrowserWindow | null = null;
 // initialize nmap scan
 ipcMain.on('startScan', async (event, args: string[]) => {
   const nmapResponde = new Map<string, ITcpScan>();
-  const addresses = args[0].replace(/^(https?:\/\/)?([^\/]+)(\/.*)?$/, '$2');
+  const addresses = args[0].replace(/^(https?:\/\/)?([^/]+)(\/.*)?$/, '$2');
 
   const parsedArgs = args[1]?.concat(args?.[2])?.concat(args?.[3]);
   const scan = new nmap.NmapScan(addresses, parsedArgs);
@@ -57,8 +57,8 @@ ipcMain.on('cancelScan', async (event, arg: string[]) => {
 // save targets
 ipcMain.on('sendTarget', async (event, arg) => {
   if (!arg) return null;
-  await axios.post('http://localhost:8483/sendTarget', JSON.stringify(arg));
   console.log('arg', arg);
+  return axios.post('http://localhost:8483/sendTarget', JSON.stringify(arg));
 });
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -102,7 +102,7 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
-    icon: getAssetPath('icon.png'),
+    icon: getAssetPath('caveiraicon.png'),
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,

@@ -1,36 +1,21 @@
-import { Layout, Menu, MenuProps } from 'antd';
+import { Layout, Menu } from 'antd';
 
 import React from 'react';
 
 import Sider from 'antd/lib/layout/Sider';
-import {
-  AppstoreOutlined,
-  BarChartOutlined,
-  CloudOutlined,
-  ShopOutlined,
-  TeamOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import InputScan from './InputScan';
 
 export function Home() {
-  const items: MenuProps['items'] = [
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    BarChartOutlined,
-    CloudOutlined,
-    AppstoreOutlined,
-    TeamOutlined,
-    ShopOutlined,
-  ].map((icon, index) => ({
-    key: String(index + 1),
-    icon: React.createElement(icon),
-    label: `nav ${index + 1}`,
-  }));
-
+  const items: ItemType[] = [
+    {
+      key: '1',
+      icon: <UploadOutlined />,
+      label: 'alo',
+      onClick: () => console.log('alo'),
+    },
+  ];
   return (
     <div>
       <Layout hasSider>
@@ -42,7 +27,7 @@ export function Home() {
             left: 0,
             top: 0,
             bottom: 0,
-            maxWidth: 130,
+            maxWidth: 100,
           }}
         >
           {' '}
