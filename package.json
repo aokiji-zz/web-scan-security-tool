@@ -34,6 +34,7 @@
   ],
   "main": "./src/main/main.ts",
   "scripts": {
+    "update": "npx prisma generate",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate:create": "npx prisma migrate dev --create-only",
     "prisma:migrate": "npx prisma migrate dev",
@@ -99,7 +100,6 @@
   },
   "dependencies": {
     "@prisma/client": "^5.4.1",
-    "@types/cors": "^2.8.14",
     "antd": "^4.23.6",
     "axios": "^1.2.3",
     "body-parser": "^1.20.2",
