@@ -12,9 +12,9 @@ datasource db {
 
 model Target {
   domain     String?
-  externalIp String?
-  internalIp String?
+  ipAddress  String
   url        String?
+  serviceIds Int?
   Services   Service[]
   id         Int       @id() @default(autoincrement())
 }
@@ -22,26 +22,11 @@ model Target {
 model Service {
   port     Int
   protocol String
-  state    Boolean
+  state    String
   service  String
   version  String?
   product  String?
   id       Int     @id() @default(autoincrement())
   Target   Target @relation(fields: [targetId], references: [id])
   targetId Int
-}
-
-model TestModel {
-  macAddress String?
-  domain     String?
-  externalIp String?
-  internalIp String?
-  url        String?
-  port     Int
-  protocol String
-  state    Boolean
-  service  String
-  version  String?
-  product  String?
-  id       Int     @id() @default(autoincrement())
 }

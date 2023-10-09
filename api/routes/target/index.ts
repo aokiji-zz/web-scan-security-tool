@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@prisma/client';
 import { ITcpScanResponse } from '../../../src/tools/network-scan/types';
 
 dotenv.config();
@@ -15,25 +15,35 @@ const corsOptions = {
   allowHeaders: ['Content-Type'],
 };
 const PORT = process.env.ENDPOINT_PORT;
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 const app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 app.post('/sendTarget', async (req: { body: ITcpScanResponse[] }, res: any) => {
   if (!req.body) return null;
-  const payload = req.body.flatMap((value) => {
-    return value.address.map((address) => {
-      return {
-        internalIp: address.addr,
-      };
-    });
-  });
-  console.log('payload', payload);
-  await prisma.target.createMany({
-    data: payload,
-  });
-
+  // const payload: Prisma.TargetCreateInput[] = req.body.flatMap((value) => {
+  //   return value.address.map((address) => {
+  //     const services = value.ports[0].flatMap((port) => {
+  //       return {
+  //         port: parseInt(port.number, 10),
+  //         protocol: port.protocol,
+  //         service: port?.service,
+  //         state: port?.state,
+  //         product: port?.product,
+  //         version: port?.version,
+  //       };
+  //     });
+  //     return {
+  //       ipAddress: address.addr,
+  //       domain: '',
+  //       url: '',
+  //       Services: {
+  //         create: services,
+  //       },
+  //     };
+  //   });
+  // });
   return res.send({ status: 'ok' });
 });
 app.get('/targets', async (req, res: any) => {
