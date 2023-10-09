@@ -12,7 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { ITcpScan } from 'tools/network-scan/types';
+import { ITcpScanResponse } from 'tools/network-scan/types';
 import axios from 'axios';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -30,20 +30,24 @@ let mainWindow: BrowserWindow | null = null;
 
 // initialize nmap scan
 ipcMain.on('startScan', async (event, args: string[]) => {
-  const nmapResponde = new Map<string, ITcpScan>();
+  const nmapResponde = new Map<string, ITcpScanResponse>();
   const addresses = args[0].replace(/^(https?:\/\/)?([^/]+)(\/.*)?$/, '$2');
 
   const parsedArgs = args[1]?.concat(args?.[2])?.concat(args?.[3]);
   const scan = new nmap.NmapScan(addresses, parsedArgs);
-  scan.on('complete', (data: ITcpScan) => {
+  scan.on('complete', (data: ITcpScanResponse) => {
+    console.log('address', addresses);
+    console.log('data', data);
     nmapResponde.set(addresses, data);
     const target = nmapResponde.get(addresses);
+    axios.post('http://localhost:8483/sendTarget', target);
     return event.sender.send('startScan', target);
   });
 
   scan.on('error', (data: string) => {
     console.log('ERROR', JSON.stringify(data, null, 2));
     console.log(`total scan time ${scan.scanTime}`);
+    scan.cancelScan();
   });
   scan.startScan();
 });
@@ -55,15 +59,15 @@ ipcMain.on('cancelScan', async (event, arg: string[]) => {
 });
 
 // save targets
-ipcMain.on('sendTarget', async (event, arg) => {
-  if (!arg) return null;
-  console.log('arg', arg);
-  return axios.post('http://localhost:8483/sendTarget', JSON.stringify(arg));
-});
-if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
-}
+// ipcMain.on('sendTarget', async (event, arg) => {
+//   if (!arg) return null;
+//   console.log('arg', arg);
+//   return axios.post('http://localhost:8483/sendTarget', JSON.stringify(arg[0]));
+// });
+// if (process.env.NODE_ENV === 'production') {
+//   const sourceMapSupport = require('source-map-support');
+//   sourceMapSupport.install();
+// }
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';

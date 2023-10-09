@@ -30,3 +30,18 @@ model Service {
   Target   Target @relation(fields: [targetId], references: [id])
   targetId Int
 }
+
+model TestModel {
+  macAddress String?
+  domain     String?
+  externalIp String?
+  internalIp String?
+  url        String?
+  port     Int
+  protocol String
+  state    Boolean
+  service  String
+  version  String?
+  product  String?
+  id       Int     @id() @default(autoincrement())
+}

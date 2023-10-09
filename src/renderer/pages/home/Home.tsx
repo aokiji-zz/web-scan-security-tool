@@ -30,7 +30,6 @@ export function Home() {
             maxWidth: 100,
           }}
         >
-          {' '}
           <div className="demo-logo-vertical" />
           <Menu
             theme="dark"
