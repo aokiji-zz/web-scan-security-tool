@@ -50,7 +50,7 @@ ipcMain.on(Channels.startScan, async (event, args: string[]) => {
   scan.on('error', (data: string) => {
     console.log('ERROR', JSON.stringify(data, null, 2));
     console.log(`total scan time ${scan.scanTime}`);
-    // scan.cancelScan();
+    return event.sender.send('error', data);
   });
   scan.startScan();
 });

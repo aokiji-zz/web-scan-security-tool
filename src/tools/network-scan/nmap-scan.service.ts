@@ -152,6 +152,7 @@ class NmapScan extends EventEmitter {
 
     this.child.on('error', (err: any) => {
       this.killChild();
+
       if (err.code === 'ENOENT') {
         this.emit(
           'error',

@@ -33,7 +33,14 @@ function InputScan() {
     setTarget(response);
     setLoading(false);
   });
-  useEffect(() => {}, [resp]);
+  const respError = window.electron.ipcRenderer.on(
+    'error',
+    (responseError: any) => {
+      console.log('responseError', responseError);
+      setLoading(false);
+    }
+  );
+  useEffect(() => {}, [resp, respError]);
   const [form] = Form.useForm();
   // const { list } = useStyle();
   const formName = {

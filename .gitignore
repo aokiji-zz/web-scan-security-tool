@@ -24,9 +24,12 @@ release/app/dist
 release/build
 .erb/dll
 
-.idea
-targets.json
 npm-debug.log.*
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
+
+
+targets.json
+images
+.idea
