@@ -6,10 +6,12 @@ async function test() {
     where: {},
     include: { Services: true },
   });
+  const count = await prisma.target.count({ where: {} });
   console.log(
     'addresses',
     addresses.map((e) => e.Services.map((el) => el))
   );
+  console.log('count', count);
 }
 
 test();

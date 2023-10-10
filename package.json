@@ -34,7 +34,7 @@
   ],
   "main": "./src/main/main.ts",
   "scripts": {
-    "start:api":"npx nodemon api/routes/target/index.ts",
+    "start:api": "npx nodemon api/routes/target/index.ts",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate:create": "npx prisma migrate dev --create-only",
     "prisma:migrate": "npx prisma migrate dev",
@@ -119,7 +119,7 @@
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.6.0",
+    "react-icons": "^4.11.0",
     "react-jss": "^10.9.2",
     "react-router-dom": "^6.11.2",
     "stream": "0.0.2",

@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd';
 import React from 'react';
 
 import Sider from 'antd/lib/layout/Sider';
-import { UploadOutlined } from '@ant-design/icons';
+import { GiRadarSweep } from 'react-icons/gi';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import InputScan from './InputScan';
 
@@ -11,7 +11,7 @@ export function Home() {
   const items: ItemType[] = [
     {
       key: '1',
-      icon: <UploadOutlined />,
+      icon: <GiRadarSweep />,
       label: 'Scan',
       onClick: () => console.log('alo'),
     },
