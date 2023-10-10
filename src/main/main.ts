@@ -14,6 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ITcpScanResponse } from 'tools/network-scan/types';
 import axios from 'axios';
+import { writeFileSync } from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import nmap from '../tools/network-scan/nmap-scan.service';
@@ -27,27 +28,29 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-
+enum Channels {
+  startScan = 'startScan',
+}
 // initialize nmap scan
-ipcMain.on('startScan', async (event, args: string[]) => {
+ipcMain.on(Channels.startScan, async (event, args: string[]) => {
   const nmapResponde = new Map<string, ITcpScanResponse>();
   const addresses = args[0].replace(/^(https?:\/\/)?([^/]+)(\/.*)?$/, '$2');
 
   const parsedArgs = args[1]?.concat(args?.[2])?.concat(args?.[3]);
   const scan = new nmap.NmapScan(addresses, parsedArgs);
-  scan.on('complete', (data: ITcpScanResponse) => {
+  scan.on('complete', async (data: ITcpScanResponse) => {
     console.log('address', addresses);
     console.log('data', data);
     nmapResponde.set(addresses, data);
     const target = nmapResponde.get(addresses);
-    axios.post('http://localhost:8483/sendTarget', target);
+    await axios.post('http://localhost:8483/sendTargets', target);
     return event.sender.send('startScan', target);
   });
 
   scan.on('error', (data: string) => {
     console.log('ERROR', JSON.stringify(data, null, 2));
     console.log(`total scan time ${scan.scanTime}`);
-    scan.cancelScan();
+    // scan.cancelScan();
   });
   scan.startScan();
 });
@@ -59,15 +62,19 @@ ipcMain.on('cancelScan', async (event, arg: string[]) => {
 });
 
 // save targets
-// ipcMain.on('sendTarget', async (event, arg) => {
-//   if (!arg) return null;
-//   console.log('arg', arg);
-//   return axios.post('http://localhost:8483/sendTarget', JSON.stringify(arg[0]));
-// });
-// if (process.env.NODE_ENV === 'production') {
-//   const sourceMapSupport = require('source-map-support');
-//   sourceMapSupport.install();
-// }
+ipcMain.on('saveTargets', async (event, arg) => {
+  if (!arg) return null;
+  console.log('saveTargets', arg);
+  writeFileSync(
+    path.join(__dirname, '../../local-db/targets.json'),
+    JSON.stringify(arg)
+  );
+  return null;
+});
+if (process.env.NODE_ENV === 'production') {
+  const sourceMapSupport = require('source-map-support');
+  sourceMapSupport.install();
+}
 
 const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';

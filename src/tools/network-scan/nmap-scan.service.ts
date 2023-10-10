@@ -119,8 +119,17 @@ class NmapScan extends EventEmitter {
         this.cancelScan();
       }
     } else {
-      // eslint-disable-next-line no-use-before-define
-      this.child = spawn(nmap.nmapLocation, this.command);
+      console.log(
+        'ELSE=>',
+        // eslint-disable-next-line no-use-before-define
+        nmap.nmapLocation,
+        this.command.filter((e) => e !== undefined)
+      );
+      this.child = spawn(
+        // eslint-disable-next-line no-use-before-define
+        nmap.nmapLocation,
+        this.command.filter((e) => e !== undefined)
+      );
       // spawn('nmap', [
       //   '-oX',
       //   '-',

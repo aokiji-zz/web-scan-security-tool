@@ -12,7 +12,7 @@ export function Home() {
     {
       key: '1',
       icon: <UploadOutlined />,
-      label: 'alo',
+      label: 'Scan',
       onClick: () => console.log('alo'),
     },
   ];

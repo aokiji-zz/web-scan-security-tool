@@ -25,6 +25,7 @@ release/build
 .erb/dll
 
 .idea
+targets.json
 npm-debug.log.*
 *.css.d.ts
 *.sass.d.ts

@@ -106,9 +106,6 @@ function InputScan() {
           };
         })
       : undefined;
-  useEffect(() => {
-    window.electron.ipcRenderer.sendMessage('sendTarget', target);
-  }, [dataSource, target]);
 
   return (
     <>
@@ -238,6 +235,13 @@ function InputScan() {
               }}
             />
           )}
+          <Button
+            onClick={() =>
+              window.electron.ipcRenderer.sendMessage('saveTargets', dataSource)
+            }
+          >
+            Save
+          </Button>
         </Col>
       </Row>
       <hr />

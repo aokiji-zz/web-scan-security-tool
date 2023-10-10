@@ -6,7 +6,10 @@ async function test() {
     where: {},
     include: { Services: true },
   });
-  console.log('addresses', addresses);
+  console.log(
+    'addresses',
+    addresses.map((e) => e.Services.map((el) => el))
+  );
 }
 
 test();

@@ -15,7 +15,7 @@ model Target {
   ipAddress  String
   url        String?
   serviceIds Int?
-  Services   Service[]
+  Services   Service[] @relation("targetServices") // Defina um nome para a relação
   id         Int       @id() @default(autoincrement())
 }
 
@@ -27,6 +27,6 @@ model Service {
   version  String?
   product  String?
   id       Int     @id() @default(autoincrement())
-  Target   Target @relation(fields: [targetId], references: [id])
+  target   Target @relation("targetServices", fields: [targetId], references: [id]) // Referência à relação no modelo Target
   targetId Int
 }
