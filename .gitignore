@@ -32,4 +32,5 @@ npm-debug.log.*
 
 targets.json
 images
-.idea
+.
+targets-1.json

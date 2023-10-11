@@ -2,15 +2,12 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 async function test() {
-  const addresses = await prisma.target.findMany({
+  const services = await prisma.service.findMany({
     where: {},
-    include: { Services: true },
+    // include: { Services: true },
   });
-  const count = await prisma.target.count({ where: {} });
-  console.log(
-    'addresses',
-    addresses.map((e) => e.Services.map((el) => el))
-  );
+  const count = await prisma.service.count({ where: {} });
+  console.log('addresses', services);
   console.log('count', count);
 }
 

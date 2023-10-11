@@ -5,7 +5,7 @@ import { exec, spawn } from 'child_process';
 import { platform } from 'os';
 import { dialog } from 'electron';
 import path from 'path';
-import convertRawJsonToScanResults from './scan-network';
+import convertRawJsonToScanResults from './convert-to-json';
 import { ITcpScan } from './types';
 
 class NmapScan extends EventEmitter {
@@ -123,12 +123,12 @@ class NmapScan extends EventEmitter {
         'ELSE=>',
         // eslint-disable-next-line no-use-before-define
         nmap.nmapLocation,
-        this.command.filter((e) => e !== undefined)
+        this.command.filter((e) => e !== undefined && e !== '')
       );
       this.child = spawn(
         // eslint-disable-next-line no-use-before-define
         nmap.nmapLocation,
-        this.command.filter((e) => e !== undefined)
+        this.command.filter((e) => e !== undefined && e !== '')
       );
       // spawn('nmap', [
       //   '-oX',

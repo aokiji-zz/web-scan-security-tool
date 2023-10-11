@@ -10,14 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Target {
-  domain     String?
-  ipAddress  String
-  url        String?
-  serviceIds Int?
-  Services   Service[] @relation("targetServices") // Defina um nome para a relação
-  id         Int       @id() @default(autoincrement())
-}
 
 model Service {
   port     Int
@@ -27,6 +19,5 @@ model Service {
   version  String?
   product  String?
   id       Int     @id() @default(autoincrement())
-  target   Target @relation("targetServices", fields: [targetId], references: [id]) // Referência à relação no modelo Target
-  targetId Int
 }
+

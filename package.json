@@ -100,7 +100,6 @@
   },
   "dependencies": {
     "@prisma/client": "^5.4.1",
-    "@types/cors": "^2.8.14",
     "antd": "^4.23.6",
     "axios": "^1.2.3",
     "body-parser": "^1.20.2",
@@ -134,6 +133,7 @@
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@types/cors": "^2.8.14",
     "@types/events": "^3.0.0",
     "@types/express": "^4.17.18",
     "@types/jest": "^29.5.2",

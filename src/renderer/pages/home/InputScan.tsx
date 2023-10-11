@@ -57,8 +57,8 @@ function InputScan() {
     window.electron.ipcRenderer.sendMessage('startScan', [
       address,
       scanType,
-      port ? `-p${port}` : port,
-      script ? `${script}` : script,
+      port ? `-p${port}` : undefined,
+      script?.length ? `--script=${script}` : undefined,
     ]);
     setLoading(true);
   }

@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client';
-import { Home } from './pages/home/Home';
+import { HomeContainer } from './pages/home/HomeContainer';
 
 import 'antd/dist/antd.css';
 
 const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
-root.render(<Home />);
+root.render(<HomeContainer />);

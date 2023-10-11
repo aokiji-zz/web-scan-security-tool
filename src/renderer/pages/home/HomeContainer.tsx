@@ -7,7 +7,7 @@ import { GiRadarSweep } from 'react-icons/gi';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import InputScan from './InputScan';
 
-export function Home() {
+export function HomeContainer() {
   const items: ItemType[] = [
     {
       key: '1',
@@ -45,4 +45,4 @@ export function Home() {
     </div>
   );
 }
-export default Home;
+export default HomeContainer;

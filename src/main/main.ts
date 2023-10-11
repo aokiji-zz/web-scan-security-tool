@@ -30,27 +30,42 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 enum Channels {
   startScan = 'startScan',
+  error = 'error',
 }
 // initialize nmap scan
 ipcMain.on(Channels.startScan, async (event, args: string[]) => {
   const nmapResponde = new Map<string, ITcpScanResponse>();
   const addresses = args[0].replace(/^(https?:\/\/)?([^/]+)(\/.*)?$/, '$2');
-
-  const parsedArgs = args[1]?.concat(args?.[2])?.concat(args?.[3]);
+  console.log('args', args);
+  // let parsedArgs: string = '';
+  const parsedArgs = (args[1] || '')
+    ?.concat(args?.[2] || '')
+    ?.concat(args?.[3] || '');
+  // for (let i = 1; i < args.length; i++) {
+  //   if (args[i] !== undefined) {
+  //     parsedArgs += args[i];
+  //   }
+  // }
+  console.log('parsedArgs', parsedArgs);
   const scan = new nmap.NmapScan(addresses, parsedArgs);
   scan.on('complete', async (data: ITcpScanResponse) => {
     console.log('address', addresses);
     console.log('data', data);
     nmapResponde.set(addresses, data);
     const target = nmapResponde.get(addresses);
-    await axios.post('http://localhost:8483/sendTargets', target);
-    return event.sender.send('startScan', target);
+    try {
+      await axios.post('http://localhost:8483/sendServices', target);
+      return event.sender.send(Channels.startScan, target);
+    } catch (err) {
+      console.log('err', err);
+      return event.sender.send(Channels.error, err);
+    }
   });
 
-  scan.on('error', (data: string) => {
+  scan.on(Channels.error, (data: string) => {
     console.log('ERROR', JSON.stringify(data, null, 2));
     console.log(`total scan time ${scan.scanTime}`);
-    return event.sender.send('error', data);
+    return event.sender.send(Channels.error, data);
   });
   scan.startScan();
 });
