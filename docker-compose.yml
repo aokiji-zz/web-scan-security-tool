@@ -6,5 +6,10 @@ services:
       POSTGRES_USER: your_username
       POSTGRES_PASSWORD: your_password
       POSTGRES_DB: your_database_name
+    volumes:
+      - pg_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"  # Expose PostgreSQL on your host machine
+
+volumes:
+  pg_data:

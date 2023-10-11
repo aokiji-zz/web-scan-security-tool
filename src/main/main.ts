@@ -58,7 +58,7 @@ ipcMain.on(Channels.startScan, async (event, args: string[]) => {
       return event.sender.send(Channels.startScan, target);
     } catch (err) {
       console.log('err', err);
-      return event.sender.send(Channels.error, err);
+      return event.sender.send(Channels.startScan, target);
     }
   });
 
