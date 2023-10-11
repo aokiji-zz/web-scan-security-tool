@@ -184,7 +184,6 @@ function InputScan() {
               <Select
                 placeholder="Script"
                 allowClear
-                mode="multiple"
                 style={{ width: '200px' }}
               >
                 {Object.keys(ScriptSelect).map((type) => (

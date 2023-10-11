@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ITcpScanResponse } from 'tools/network-scan/types';
 import axios from 'axios';
-import { writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import nmap from '../tools/network-scan/nmap-scan.service';
@@ -79,10 +79,15 @@ ipcMain.on('cancelScan', async (event, arg: string[]) => {
 // save targets
 ipcMain.on('saveTargets', async (event, arg) => {
   if (!arg) return null;
+  const existsTargets = JSON.parse(
+    readFileSync(path.join(__dirname, '../../local-db/targets.json'), {
+      encoding: 'utf-8',
+    })
+  );
   console.log('saveTargets', arg);
   writeFileSync(
     path.join(__dirname, '../../local-db/targets.json'),
-    JSON.stringify(arg)
+    JSON.stringify([...existsTargets, ...arg])
   );
   return null;
 });
