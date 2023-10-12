@@ -98,7 +98,7 @@ class NmapScan extends EventEmitter {
     const options: Electron.MessageBoxOptions = {
       type: 'question',
       buttons: ['Cancel', 'Allow'],
-      icon: path.join(__dirname, '../../assets/icons/caveiraicon.png'),
+      icon: path.join(__dirname, '../../assets/icons/eye.png'),
       defaultId: 1,
       title: 'Elevated privileges required',
       message:

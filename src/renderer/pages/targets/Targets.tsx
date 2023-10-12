@@ -1,4 +1,6 @@
+import GeneralContainer from "renderer/components/GeneralContainer";
+
 function Targets() {
-  return <div>alo</div>;
+  return <GeneralContainer component={<div>alo</div>} key="2"/> ;
 }
 export default Targets;

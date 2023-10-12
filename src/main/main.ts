@@ -136,7 +136,7 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
-    icon: getAssetPath('caveiraicon.png'),
+    icon: getAssetPath('eye.png'),
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
