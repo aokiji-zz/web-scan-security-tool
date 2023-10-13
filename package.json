@@ -99,6 +99,7 @@
     }
   },
   "dependencies": {
+    "@faker-js/faker": "^8.1.0",
     "@prisma/client": "^5.4.1",
     "antd": "^4.23.6",
     "axios": "^1.2.3",

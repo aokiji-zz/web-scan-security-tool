@@ -31,6 +31,9 @@ let mainWindow: BrowserWindow | null = null;
 enum Channels {
   startScan = 'startScan',
   error = 'error',
+  cancelScan = 'cancelScan',
+  saveTargets = 'saveTargets',
+  getTargets = 'getTargets',
 }
 // initialize nmap scan
 ipcMain.on(Channels.startScan, async (event, args: string[]) => {
@@ -71,13 +74,13 @@ ipcMain.on(Channels.startScan, async (event, args: string[]) => {
 });
 
 // cancel nmap scan
-ipcMain.on('cancelScan', async (event, arg: string[]) => {
+ipcMain.on(Channels.cancelScan, async (event, arg: string[]) => {
   const cancel = new nmap.NmapScan(arg[0], arg[1]).cancelScan();
   return cancel;
 });
 
-// save targets
-ipcMain.on('saveTargets', async (event, arg) => {
+// files
+ipcMain.on(Channels.saveTargets, async (event, arg) => {
   if (!arg) return null;
   let existsFile;
   if (existsSync(path.join(__dirname, '../../local-db/targets.json'))) {
@@ -93,6 +96,21 @@ ipcMain.on('saveTargets', async (event, arg) => {
   );
   console.log('savedTargets', arg);
   return null;
+});
+
+ipcMain.on(Channels.getTargets, async (event, arg) => {
+  if (!arg) return null;
+  let existsFile;
+  if (existsSync(path.join(__dirname, '../../local-db/targets.json'))) {
+    existsFile = JSON.parse(
+      readFileSync(path.join(__dirname, '../../local-db/targets.json'), {
+        encoding: 'utf-8',
+      })
+    );
+  }
+
+  console.log('getTargets', existsFile);
+  return event.sender.send('getTargets', existsFile);
 });
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
