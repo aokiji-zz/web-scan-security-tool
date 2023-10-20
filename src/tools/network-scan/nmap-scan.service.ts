@@ -5,7 +5,7 @@ import { exec, spawn } from 'child_process';
 import { platform } from 'os';
 import { dialog } from 'electron';
 import path from 'path';
-import convertRawJsonToScanResults from './scan-network';
+import convertRawJsonToScanResults from './convert-to-json';
 import { ITcpScan } from './types';
 
 class NmapScan extends EventEmitter {
@@ -98,11 +98,11 @@ class NmapScan extends EventEmitter {
     const options: Electron.MessageBoxOptions = {
       type: 'question',
       buttons: ['Cancel', 'Allow'],
-      icon: path.join(__dirname, '../../assets/icons/caveiraicon.png'),
+      icon: path.join(__dirname, '../../assets/icons/eye.png'),
       defaultId: 1,
-      title: 'Elevated Privileges Required',
+      title: 'Elevated privileges required',
       message:
-        'This action requires elevated privileges. Press allow and insert your password if you aggree.',
+        'This action requires elevated privileges. Press allow if you aggree.',
     };
 
     const rootCommands = this.command.some((e) =>
@@ -119,8 +119,25 @@ class NmapScan extends EventEmitter {
         this.cancelScan();
       }
     } else {
-      // eslint-disable-next-line no-use-before-define
-      this.child = spawn(nmap.nmapLocation, this.command);
+      console.log(
+        'ELSE=>',
+        // eslint-disable-next-line no-use-before-define
+        nmap.nmapLocation,
+        this.command.filter((e) => e !== undefined && e !== '')
+      );
+      this.child = spawn(
+        // eslint-disable-next-line no-use-before-define
+        nmap.nmapLocation,
+        this.command.filter((e) => e !== undefined && e !== '')
+      );
+      // spawn('nmap', [
+      //   '-oX',
+      //   '-',
+      //   '-sV',
+      //   '--script',
+      //   'discovery',
+      //   '192.168.0.1',
+      // ]);
     }
     process.on('SIGINT', this.killChild);
     process.on('uncaughtException', this.killChild);
@@ -135,6 +152,7 @@ class NmapScan extends EventEmitter {
 
     this.child.on('error', (err: any) => {
       this.killChild();
+
       if (err.code === 'ENOENT') {
         this.emit(
           'error',

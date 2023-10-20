@@ -2,7 +2,12 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-export type Channels = 'startScan' | 'cancelScan';
+export type Channels =
+  | 'startScan'
+  | 'cancelScan'
+  | 'saveTargets'
+  | 'getTargets'
+  | 'error';
 
 const electronHandler = {
   ipcRenderer: {

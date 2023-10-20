@@ -2,26 +2,23 @@ import {
   Button,
   Col,
   Divider,
-  Dropdown,
   Form,
   Input,
   List,
-  MenuProps,
   Row,
   Select,
   Spin,
   Typography,
 } from 'antd';
-import { AiOutlineMenu, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineSend } from 'react-icons/ai';
 import { MdOutlineCancelScheduleSend } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import {
   ITcpScanResponse,
   ScanTypeSelect,
   ScriptSelect,
-} from 'tools/network-scan/types';
+} from '../../../tools/network-scan/types';
 import TooltipQuestion from './components/tooltop-question';
-import useStyle from './style/home.style';
 
 type FormParam = {
   address: string;
@@ -29,17 +26,23 @@ type FormParam = {
   port?: string;
   script?: string;
 };
-
-export function Home() {
+function InputScan() {
   const [target, setTarget] = useState<ITcpScanResponse[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const resp = window.electron.ipcRenderer.on('startScan', (response: any) => {
     setTarget(response);
     setLoading(false);
   });
-  useEffect(() => {}, [resp]);
+  const respError = window.electron.ipcRenderer.on(
+    'error',
+    (responseError: any) => {
+      console.log('responseError', responseError);
+      setLoading(false);
+    }
+  );
+  useEffect(() => {}, [resp, respError]);
   const [form] = Form.useForm();
-  const { buttonStyle, buttonSend, list } = useStyle();
+  // const { list } = useStyle();
   const formName = {
     address: 'address',
     scanType: 'scanType',
@@ -50,12 +53,12 @@ export function Home() {
   const [formValues, setFormValues] = useState<FormParam>();
   const { Option } = Select;
   async function startScan() {
-    const { address, scanType, port } = formValues as FormParam;
+    const { address, scanType, port, script } = formValues as FormParam;
     window.electron.ipcRenderer.sendMessage('startScan', [
       address,
       scanType,
-      port ? `-p${port}` : port,
-      // script ? `--script ${script}` : script,
+      port ? `-p${port}` : undefined,
+      script?.length ? `--script=${script}` : undefined,
     ]);
     setLoading(true);
   }
@@ -111,35 +114,8 @@ export function Home() {
         })
       : undefined;
 
-  const menu: MenuProps['items'] = [
-    {
-      key: '1',
-      type: 'group',
-      label: 'Comming soon',
-      // children: [
-      //   {
-      //     key: '1-1',
-      //     label: '1st menu item',
-      //   },
-      //   {
-      //     key: '1-2',
-      //     label: '2nd menu item',
-      //   },
-      // ],
-    },
-  ];
-  console.log('loading', loading, 'datasource', dataSource);
-
   return (
-    <div>
-      <Row align="top">
-        <Dropdown menu={{ items: menu }}>
-          <Button
-            className={buttonStyle}
-            icon={<AiOutlineMenu className="anticon" />}
-          />
-        </Dropdown>
-      </Row>
+    <>
       <Row align="top" gutter={[16, 16]}>
         <Form
           form={form}
@@ -178,25 +154,27 @@ export function Home() {
                 mode="multiple"
                 style={{ width: '200px' }}
               >
-                {Object.keys(ScanTypeSelect).map((type) => (
-                  <Option
-                    disabled={
-                      // eslint-disable-next-line no-nested-ternary
-                      formValues?.scanType?.find((e) => e === '-sO')
-                        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                          // @ts-ignore
-                          ScanTypeSelect[type] !== '-sO'
-                        : undefined
-                    }
-                    key={type}
-                    label={type}
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    value={ScanTypeSelect[type]}
-                  >
-                    <TooltipQuestion title={type} text={type} />
-                  </Option>
-                ))}
+                {Object.keys(ScanTypeSelect).map((type) => {
+                  return (
+                    <Option
+                      disabled={
+                        // eslint-disable-next-line no-nested-ternary
+                        formValues?.scanType?.find((e) => e === '-sO')
+                          ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                            // @ts-ignore
+                            ScanTypeSelect[type] !== '-sO'
+                          : undefined
+                      }
+                      key={type}
+                      label={type}
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore
+                      value={ScanTypeSelect[type]}
+                    >
+                      <TooltipQuestion title={type} text={type} />
+                    </Option>
+                  );
+                })}
               </Select>
             </Form.Item>
           </Col>
@@ -206,7 +184,6 @@ export function Home() {
               <Select
                 placeholder="Script"
                 allowClear
-                mode="multiple"
                 style={{ width: '200px' }}
               >
                 {Object.keys(ScriptSelect).map((type) => (
@@ -238,7 +215,7 @@ export function Home() {
                 marginLeft: '16px',
                 marginTop: '15px',
               }}
-              className={buttonSend}
+              // className={buttonSend}
               icon={<AiOutlineSend className="anticon" />}
               loading={loading}
               disabled={
@@ -257,13 +234,20 @@ export function Home() {
                 marginLeft: '16px',
                 marginTop: '15px',
               }}
-              className={buttonSend}
+              // className={buttonSend}
               icon={<MdOutlineCancelScheduleSend className="anticon" />}
               onClick={() => {
                 cancelScan();
               }}
             />
           )}
+          <Button
+            onClick={() =>
+              window.electron.ipcRenderer.sendMessage('saveTargets', dataSource)
+            }
+          >
+            Save
+          </Button>
         </Col>
       </Row>
       <hr />
@@ -277,7 +261,7 @@ export function Home() {
                 itemLayout="vertical"
                 size="small"
                 bordered
-                className={list}
+                // className={list}
                 loading={loading}
                 dataSource={dataSource}
                 renderItem={(item, index) => {
@@ -325,7 +309,8 @@ export function Home() {
           )}
         </Col>
       </Row>
-    </div>
+    </>
   );
 }
-export default Home;
+
+export default InputScan;

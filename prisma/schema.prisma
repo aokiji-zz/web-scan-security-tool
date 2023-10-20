@@ -10,10 +10,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Target {
-  domain String? @unique()
-  externalIp String? @unique()
-  internalIp String?
-  url       String?
-  id Int @default(autoincrement()) @id()
+
+model Service {
+  port     Int
+  protocol String
+  state    String
+  service  String
+  version  String?
+  product  String?
+  id       Int     @id() @default(autoincrement())
 }
+
