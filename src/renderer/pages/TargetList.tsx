@@ -1,4 +1,4 @@
-import { List, Row, Spin, Typography } from 'antd';
+import { List, Row, Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import { ITcpScanResponse } from '../../tools/network-scan/types';
 
@@ -18,15 +18,9 @@ function TargetList() {
   return (
     <Row align="top" gutter={[16, 16]}>
       <List itemLayout="horizontal">
-        {targets.length ? (
-          targets?.map((el) => {
-            <List.Item key={el.address[0].addr}>
-              {el.address[0].addr}
-            </List.Item>;
-          })
-        ) : (
-          <Typography.Text>sim</Typography.Text>
-        )}
+        {targets.map((e) => {
+          return <List.Item>{e.address[0].addr}</List.Item>;
+        })}
       </List>
     </Row>
   );

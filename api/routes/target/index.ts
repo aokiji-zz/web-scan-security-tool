@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { ITcpScanResponse } from '../../../src/tools/network-scan/types';
 
 dotenv.config();
@@ -23,7 +23,7 @@ app.use(cors(corsOptions));
 app.post('/sendServices', async (req: { body: ITcpScanResponse[] }, res) => {
   if (!req.body) return null;
 
-  const payload = req?.body?.flatMap((value) => {
+  const payload = req?.body?.flatMap<Prisma.ServiceCreateManyInput>((value) => {
     return value?.ports?.[0]?.flatMap((port) => {
       return {
         port: parseInt(port?.number, 10),

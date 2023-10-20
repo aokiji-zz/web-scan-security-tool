@@ -30,7 +30,6 @@ npm-debug.log.*
 *.scss.d.ts
 
 
-targets.json
 images
 .
 targets-1.json
