@@ -40,3 +40,6 @@ Ip: ```192.168.0.0-255```.
 Ips: ```192.168.0.1 192.168.0.2```.                                                                                                                                                                         
 
 Url: ```https://excample.com``` or ```example.com```.
+
+![Screenshot from 2023-10-20 07-45-24](https://github.com/aokiji-zz/web-scan-security-tool/assets/66219931/1b4bed13-005c-4284-b921-5a03b2813ad8)
+
