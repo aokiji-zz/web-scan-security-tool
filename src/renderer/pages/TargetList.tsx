@@ -1,10 +1,14 @@
-import { List, Row, Spin } from 'antd';
+import { Button, List, Row, Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import { ITcpScanResponse } from '../../tools/network-scan/types';
+import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai';
+import { ITcpScanList } from '../../tools/network-scan/types/scan-network-list.types';
 
 function TargetList() {
-  const [targets, setTarget] = useState<ITcpScanResponse[]>([]);
+  const [targets, setTarget] = useState<ITcpScanList[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [show, setShow] = useState<{ uuid?: string; show: boolean }>({
+    show: false,
+  });
   useEffect(() => {
     setLoading(true);
     window.electron.ipcRenderer.sendMessage('getTargets', []);
@@ -13,14 +17,13 @@ function TargetList() {
       setLoading(false);
     });
   }, []);
-  console.log('target', targets);
   if (loading) return <Spin />;
   return (
     <Row align="top" gutter={[16, 16]}>
-      <List itemLayout="horizontal">
-        {targets.map((e) => {
-          return <List.Item>{e.address[0].addr}</List.Item>;
-        })}
+      <List dataSource={targets} itemLayout="horizontal">
+        {/* {targets.map((e) => {
+          return <List.Item>{e.uuid}</List.Item>;
+        })} */}
       </List>
     </Row>
   );

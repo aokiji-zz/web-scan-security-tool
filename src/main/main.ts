@@ -13,7 +13,7 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ITcpScanResponse } from 'tools/network-scan/types';
-import axios from 'axios';
+// import axios from 'axios';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -57,7 +57,7 @@ ipcMain.on(Channels.startScan, async (event, args: string[]) => {
     nmapResponde.set(addresses, data);
     const target = nmapResponde.get(addresses);
     try {
-      await axios.post('http://localhost:8483/sendServices', target);
+      // await axios.post('http://localhost:8483/sendServices', target);
       return event.sender.send(Channels.startScan, target);
     } catch (err) {
       console.log('err', err);
@@ -112,6 +112,11 @@ ipcMain.on(Channels.getTargets, async (event, arg) => {
   console.log('getTargets', existsFile);
   return event.sender.send('getTargets', existsFile);
 });
+
+ipcMain.on('findExploit', (event, args) => {
+  console.log('args', args);
+});
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
