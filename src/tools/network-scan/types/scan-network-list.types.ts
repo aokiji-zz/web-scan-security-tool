@@ -20,5 +20,5 @@ export interface ITcpScanList {
     cpe: string[];
     osType: string;
     extraInfo: string;
-  }[][];
+  }[];
 }
