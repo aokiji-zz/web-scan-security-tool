@@ -1,4 +1,4 @@
-export interface ITcpScanResponse {
+export interface ITcpScanList {
   uuid: string;
   address: {
     addr: string;

@@ -13,6 +13,7 @@ import {
 import { AiOutlineSend } from 'react-icons/ai';
 import { MdOutlineCancelScheduleSend } from 'react-icons/md';
 import { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 import {
   ITcpScanResponse,
   ScanTypeSelect,
@@ -79,6 +80,7 @@ function InputScan() {
     target instanceof Array
       ? target?.map((hosts) => {
           return {
+            uuid: v4(),
             hostName: hosts?.hostName?.map((host) => {
               return {
                 names: host?.names?.map((name) => {
@@ -242,9 +244,13 @@ function InputScan() {
             />
           )}
           <Button
-            onClick={() =>
-              window.electron.ipcRenderer.sendMessage('saveTargets', dataSource)
-            }
+            onClick={() => [
+              window.electron.ipcRenderer.sendMessage(
+                'saveTargets',
+                dataSource
+              ),
+              window.electron.ipcRenderer.sendMessage('findExploit', ['alo']),
+            ]}
           >
             Save
           </Button>
@@ -295,6 +301,9 @@ function InputScan() {
                                 <p>State: {serv.state}</p>
                                 <p>Device Type: {serv.deviceType}</p>
                                 <p>Extra Info: {serv.extraInfo}</p>
+                                <p>
+                                  cpe: {serv?.cpe?.map((e) => e?.concat(' '))}
+                                </p>
                               </>
                             );
                           })}

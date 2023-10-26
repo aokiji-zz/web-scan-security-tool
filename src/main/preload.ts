@@ -7,7 +7,8 @@ export type Channels =
   | 'cancelScan'
   | 'saveTargets'
   | 'getTargets'
-  | 'error';
+  | 'error'
+  | 'findExploit';
 
 const electronHandler = {
   ipcRenderer: {

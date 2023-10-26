@@ -14,7 +14,7 @@ const corsOptions = {
   origin: ['http:localhost:1212'],
   allowHeaders: ['Content-Type'],
 };
-const PORT = process.env.ENDPOINT_PORT;
+const PORT = process.env.ENDPOINT_PORT || 8483;
 const prisma = new PrismaClient();
 const app = express();
 app.use(bodyParser.json());
