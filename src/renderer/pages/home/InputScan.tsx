@@ -301,6 +301,9 @@ function InputScan() {
                                 <p>State: {serv.state}</p>
                                 <p>Device Type: {serv.deviceType}</p>
                                 <p>Extra Info: {serv.extraInfo}</p>
+                                <p>
+                                  cpe: {serv?.cpe?.map((e) => e?.concat(' '))}
+                                </p>
                               </>
                             );
                           })}

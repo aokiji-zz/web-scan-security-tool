@@ -14,10 +14,15 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ITcpScanResponse } from 'tools/network-scan/types';
 // import axios from 'axios';
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import Store from 'electron-store';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import nmap from '../tools/network-scan/nmap-scan.service';
+import { ITcpScanList } from '../tools/network-scan/types/scan-network-list.types';
+import {
+  storeGetTargets,
+  storeSaveTargets,
+} from './helpers/targets/target-save';
 
 class AppUpdater {
   constructor() {
@@ -80,37 +85,17 @@ ipcMain.on(Channels.cancelScan, async (event, arg: string[]) => {
 });
 
 // files
-ipcMain.on(Channels.saveTargets, async (event, arg) => {
+const store = new Store();
+ipcMain.on(Channels.saveTargets, async (event, arg: ITcpScanList[]) => {
   if (!arg) return null;
-  let existsFile;
-  if (existsSync(path.join(__dirname, '../../local-db/targets.json'))) {
-    existsFile = JSON.parse(
-      readFileSync(path.join(__dirname, '../../local-db/targets.json'), {
-        encoding: 'utf-8',
-      })
-    );
-  }
-  writeFileSync(
-    path.join(__dirname, '../../local-db/targets.json'),
-    JSON.stringify([...(existsFile || []), ...(arg || [])])
-  );
-  console.log('savedTargets', arg);
+  storeSaveTargets(store, arg);
   return null;
 });
-
-ipcMain.on(Channels.getTargets, async (event, arg) => {
+ipcMain.on(Channels.getTargets, async (event, arg: ITcpScanList[]) => {
+  if (!store.size) return null;
   if (!arg) return null;
-  let existsFile;
-  if (existsSync(path.join(__dirname, '../../local-db/targets.json'))) {
-    existsFile = JSON.parse(
-      readFileSync(path.join(__dirname, '../../local-db/targets.json'), {
-        encoding: 'utf-8',
-      })
-    );
-  }
-
-  console.log('getTargets', existsFile);
-  return event.sender.send('getTargets', existsFile);
+  const data = storeGetTargets(store);
+  return event.sender.send('getTargets', data);
 });
 
 ipcMain.on('findExploit', (event, args) => {
